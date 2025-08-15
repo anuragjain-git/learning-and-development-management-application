@@ -3,27 +3,32 @@ package com.cts.userservice.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true, length = 150)
     private String email;
 
+    @Column(nullable = false, length = 255)
     private String password;
 
-    private String role; // ADMIN, MANAGER, EMPLOYEE
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, columnDefinition = "ENUM('ACCOUNT_MANAGER', 'ADMIN', 'EMPLOYEE')")
+    private Role role;
 
+    @Column(name = "is_active", nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
     private boolean isActive = true;
 
-    // Constructors
     public User() {}
 
-    public User(Long id, String name, String email, String password, String role, boolean isActive) {
+    public User(Long id, String name, String email, String password, Role role, boolean isActive) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -44,8 +49,8 @@ public class User {
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
 
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+    public Role getRole() { return role; }
+    public void setRole(Role role) { this.role = role; }
 
     public boolean isActive() { return isActive; }
     public void setActive(boolean active) { isActive = active; }
