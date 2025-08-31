@@ -1,0 +1,42 @@
+package com.vilt.narmada.service;
+
+import com.vilt.narmada.exception.EmailAlreadyExistsException;
+import com.vilt.narmada.exception.InvalidCredentialsException;
+import com.vilt.narmada.exception.UserNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.vilt.narmada.model.User;
+import com.vilt.narmada.repository.UserRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class UserService {
+    @Autowired
+    private UserRepository userRepository;
+
+    public User register(User user) {
+        userRepository.findByEmail(user.getEmail()).ifPresent(u -> {
+            throw new EmailAlreadyExistsException(user.getEmail());
+        });
+        return userRepository.save(user);
+    }
+
+    public User login(String email, String password) {
+        return userRepository.findByEmail(email)
+                .filter(user -> user.getPassword().equals(password))
+                .orElseThrow(InvalidCredentialsException::new);
+    }
+
+    public User getById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+}
+
