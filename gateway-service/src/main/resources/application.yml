@@ -1,0 +1,27 @@
+server:
+  port: 8080  # Gateway runs on 8080
+
+spring:
+  application:
+    name: gateway-service
+
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://user-service   # Service name registered in Eureka
+          predicates:
+            - Path=/user-service/**   # All requests starting with /user-service/
+          filters:
+            - StripPrefix=1   # Removes "/user-service" before forwarding
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/   # Eureka server
+    register-with-eureka: true
+    fetch-registry: true
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
