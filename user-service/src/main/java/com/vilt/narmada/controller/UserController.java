@@ -1,5 +1,6 @@
 package com.vilt.narmada.controller;
 
+import com.vilt.narmada.dto.UserIdRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 
@@ -25,13 +26,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-//    @PostMapping("/register")
-//    public ResponseEntity<User> register(@Valid @RequestBody User user) {
-//        return ResponseEntity.ok(userService.register(user));
-//    }
-
     @PostMapping("/register")
-    public ResponseEntity<User> register(@Valid @RequestBody RegisterRequest request, BindingResult bindingResult) {
+    public ResponseEntity<User> register(@Valid @RequestBody RegisterRequest request) {
         User user = new User();
         user.setName(request.getName());
         user.setEmail(request.getEmail());
@@ -54,9 +50,9 @@ public class UserController {
         return ResponseEntity.ok(userService.getById(id));
     }
 
-    // not asked in question, added to have a default get endpoint for the path /api/v1/users
-    @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    @GetMapping("/id-by-email")
+    public ResponseEntity<UserIdRequest> getUserIdByEmail(@RequestParam String email) {
+        Long userId = userService.getUserIdByEmail(email);
+        return ResponseEntity.ok(new UserIdRequest(userId));
     }
 }

@@ -2,6 +2,7 @@ package com.vilt.narmada.service;
 
 import com.vilt.narmada.exception.EmailAlreadyExistsException;
 import com.vilt.narmada.exception.InvalidCredentialsException;
+import com.vilt.narmada.exception.InvalidEmailException;
 import com.vilt.narmada.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -35,8 +37,10 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public Long getUserIdByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .map(User::getId)
+                .orElseThrow(InvalidEmailException::new);
     }
 }
 

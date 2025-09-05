@@ -40,9 +40,6 @@ public class GlobalExceptionHandler {
     // Handle Invalid Credentials
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<ExceptionResponse> handleInvalidCredentials(InvalidCredentialsException ex, WebRequest request) {
-
-
-
         ExceptionResponse response = new ExceptionResponse(
                 LocalDate.now(),
                 ex.getMessage(),
@@ -50,6 +47,17 @@ public class GlobalExceptionHandler {
                 HttpStatus.UNAUTHORIZED.getReasonPhrase()
         );
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(InvalidEmailException.class)
+    public ResponseEntity<ExceptionResponse> handleInvalidEmail(InvalidEmailException ex, WebRequest request) {
+        ExceptionResponse response = new ExceptionResponse(
+                LocalDate.now(),
+                ex.getMessage(),
+                request.getDescription(false),
+                HttpStatus.NOT_FOUND.getReasonPhrase()
+        );
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     // Handle validation errors (@Valid / @NotBlank etc.)
