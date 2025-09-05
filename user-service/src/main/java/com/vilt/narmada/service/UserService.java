@@ -5,6 +5,8 @@ import com.vilt.narmada.exception.InvalidCredentialsException;
 import com.vilt.narmada.exception.InvalidEmailException;
 import com.vilt.narmada.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.vilt.narmada.model.User;
@@ -18,12 +20,16 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    public User register(User user) {
+    public boolean register(User user) {
         userRepository.findByEmail(user.getEmail()).ifPresent(u -> {
             throw new EmailAlreadyExistsException(user.getEmail());
         });
-        return userRepository.save(user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+        return true;
     }
 
     public User login(String email, String password) {

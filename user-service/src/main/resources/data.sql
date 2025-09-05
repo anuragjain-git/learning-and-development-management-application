@@ -1,4 +1,4 @@
-INSERT IGNORE INTO users (name, email, password, role) VALUES
-('Anurag', 'anurag@cognizant.com', '123', 'ADMIN'),
-('Sayandip', 'sayandip@cognizant.com', '123', 'ACCOUNT_MANAGER'),
-('Priyanshu', 'priyanshu@cognizant.com', '123', 'EMPLOYEE');
+--INSERT IGNORE INTO users (name, email, password, role) VALUES
+--('Anurag', 'anurag@cognizant.com', '123', 'ADMIN'),
+--('Sayandip', 'sayandip@cognizant.com', '123', 'ACCOUNT_MANAGER'),
+--('Priyanshu', 'priyanshu@cognizant.com', '123', 'EMPLOYEE');

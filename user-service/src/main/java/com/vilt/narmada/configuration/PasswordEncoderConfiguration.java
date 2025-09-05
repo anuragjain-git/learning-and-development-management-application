@@ -1,4 +1,4 @@
-package com.configuration;
+package com.vilt.narmada.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

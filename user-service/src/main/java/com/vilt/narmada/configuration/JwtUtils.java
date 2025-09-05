@@ -1,4 +1,4 @@
-package com.configuration;
+package com.vilt.narmada.configuration;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Date;

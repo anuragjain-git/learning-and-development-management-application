@@ -1,48 +1,22 @@
 package com.vilt.narmada.controller;
 
 import com.vilt.narmada.dto.UserIdRequest;
-import jakarta.validation.Valid;
+import com.vilt.narmada.model.User;
+import com.vilt.narmada.service.UserService;
 import jakarta.validation.constraints.Min;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import com.vilt.narmada.dto.LoginRequest;
-import com.vilt.narmada.dto.RegisterRequest;
-import com.vilt.narmada.model.User;
-import com.vilt.narmada.service.UserService;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/users")
 @Validated
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @PostMapping("/register")
-    public ResponseEntity<User> register(@Valid @RequestBody RegisterRequest request) {
-        User user = new User();
-        user.setName(request.getName());
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-        user.setRole(request.getRole());
-        user.setActive(true);
-
-        User savedUser = userService.register(user);
-        return ResponseEntity.ok(savedUser);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<User> login(@Valid @RequestBody LoginRequest login) {
-        User user = userService.login(login.getEmail(), login.getPassword());
-        return ResponseEntity.ok(user);
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/{id}")
@@ -50,7 +24,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getById(id));
     }
 
-    @GetMapping("/id-by-email")
+    @GetMapping("/id")
     public ResponseEntity<UserIdRequest> getUserIdByEmail(@RequestParam String email) {
         Long userId = userService.getUserIdByEmail(email);
         return ResponseEntity.ok(new UserIdRequest(userId));

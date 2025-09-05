@@ -1,4 +1,4 @@
-package com.configuration;
+package com.vilt.narmada.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -52,12 +52,9 @@ public class SecurityConfig {
 		http.csrf(csrf -> csrf.disable())
 		.exceptionHandling(e -> e.authenticationEntryPoint(jwtAuthenticationEntryPoint))
 				.authorizeHttpRequests(
-						auth -> auth.requestMatchers("/auth/register", "/auth/login", "/api/gift/welcome").permitAll()
-								.requestMatchers(HttpMethod.POST, "/api/gift").hasRole("ADMIN")
-								.requestMatchers(HttpMethod.PUT, "/api/gift").hasRole("ADMIN")
-								.requestMatchers(HttpMethod.DELETE, "/api/gift/*").hasRole("ADMIN")
-								.requestMatchers(HttpMethod.GET, "/api/gift", "/api/gift/*")
-								.hasAnyRole("ADMIN", "USER").anyRequest().authenticated())
+						auth -> auth.requestMatchers("/api/auth/register", "/api/auth/login").permitAll()
+								.requestMatchers(HttpMethod.GET, "/api/users/{id}", "api/users/id").hasRole("ADMIN")
+								.anyRequest().authenticated())
 				.httpBasic(h -> {
 				}).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();

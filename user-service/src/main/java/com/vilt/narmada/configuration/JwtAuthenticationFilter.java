@@ -1,6 +1,7 @@
-package com.configuration;
+package com.vilt.narmada.configuration;
 import java.io.IOException;
 
+import com.vilt.narmada.service.CustomUserDetailsService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,7 +9,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.service.UserService;
+import com.vilt.narmada.service.UserService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -17,12 +18,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
-   
     private JwtUtils jwtUtils;   
-    private UserService userService;
+    private CustomUserDetailsService userService;
     
-    public JwtAuthenticationFilter(JwtUtils jwtUtils, UserService userService) {
+    public JwtAuthenticationFilter(JwtUtils jwtUtils, CustomUserDetailsService userService) {
 		this.jwtUtils = jwtUtils;
 		this.userService = userService;
 	}

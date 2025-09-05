@@ -1,11 +1,11 @@
-package com.configuration;
+package com.vilt.narmada.configuration;
 import java.util.Collection;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.model.User;
+import com.vilt.narmada.model.User;
 
 public class UserPrinciple implements UserDetails {
 
@@ -29,7 +29,7 @@ public class UserPrinciple implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        return user.getEmail();
     }
 
     @Override
